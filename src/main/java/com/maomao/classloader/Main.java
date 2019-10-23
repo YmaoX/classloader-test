@@ -1,24 +1,19 @@
 package com.maomao.classloader;
 
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 
 public class Main {
 
-    public static void main(String[] args) throws MalformedURLException {
+    public static void main(String[] args) {
         FileSystemClassLoader ucl = new FileSystemClassLoader();
+        EncryptedClassLoader ecl = new EncryptedClassLoader();
         try {
             Class<?> obj = ucl.loadClass("com.maomao.classloader.HelloWorld");
             obj.getMethod("sayHi").invoke(obj.newInstance());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
+
+            obj = ecl.loadClass("com.maomao.classloader.HelloWorld");
+            obj.getMethod("sayHi").invoke(obj.newInstance());
+        } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException | InstantiationException | NoSuchMethodException e) {
             e.printStackTrace();
         }
     }
